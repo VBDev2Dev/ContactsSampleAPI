@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ContactsAPISample
@@ -22,7 +23,12 @@ namespace ContactsAPISample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ContactsContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:ContactsDB"]));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                                               .AddJsonOptions(options =>
+                                               {
+                                                   options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                                               });
+            ;
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
