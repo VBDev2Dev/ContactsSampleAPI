@@ -13,7 +13,7 @@ namespace ContactsAPISample.Models.DB
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (Birthdate > DateTime.Now)
+            if (Birthdate > DateTimeOffset.Now)
             {
                 yield return new ValidationResult("A person cannot be born in the future.", new string[] { nameof(Birthdate) });
             }
@@ -21,7 +21,7 @@ namespace ContactsAPISample.Models.DB
            
         }
 
-        public DateTime Birthdate { get; set; }
+        public DateTimeOffset Birthdate { get; set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ID { get; set; }

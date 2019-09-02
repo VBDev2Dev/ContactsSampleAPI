@@ -4,14 +4,16 @@ using ContactsAPISample.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ContactsAPISample.Migrations
 {
     [DbContext(typeof(ContactsContext))]
-    partial class ContactsContextModelSnapshot : ModelSnapshot
+    [Migration("20190902134342_Change Birthdate to a DateTimeOffset")]
+    partial class ChangeBirthdatetoaDateTimeOffset
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
