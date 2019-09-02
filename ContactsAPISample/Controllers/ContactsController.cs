@@ -12,6 +12,7 @@ namespace ContactsAPISample.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class ContactsController : ControllerBase
     {
         private readonly ContactsContext _context;
