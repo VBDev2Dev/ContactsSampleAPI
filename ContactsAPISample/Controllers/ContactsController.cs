@@ -1,12 +1,10 @@
-﻿using System;
+﻿using ContactsAPISample.EF;
+using ContactsAPISample.Models.DB;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ContactsAPISample.EF;
-using ContactsAPISample.Models.DB;
 
 namespace ContactsAPISample.Controllers
 {
@@ -26,7 +24,9 @@ namespace ContactsAPISample.Controllers
         [HttpGet]
         public IEnumerable<Contact> GetContacts()
         {
-            return _context.Contacts;
+            return _context.Contacts
+                .Include(c => c.EmailAddresses).
+                AsNoTracking();
         }
 
         // GET: api/Contacts/5
@@ -38,7 +38,10 @@ namespace ContactsAPISample.Controllers
                 return BadRequest(ModelState);
             }
 
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _context.Contacts
+                .Include(c => c.EmailAddresses)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.ID == id);
 
             if (contact == null)
             {
