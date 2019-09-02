@@ -18,10 +18,14 @@ namespace ContactsAPISample.Models.DB
                 yield return new ValidationResult("A person cannot be born in the future.", new string[] { nameof(Birthdate) });
             }
 
-           
+            if (EmailAddresses.GroupBy(e => e.Email).Select(grp => grp.Count()).Any(c => c > 1))
+                yield return new ValidationResult("Email addresses must be unique.", new string[] { nameof(EmailAddresses) });
+
         }
 
         public DateTimeOffset Birthdate { get; set; }
+        [ForeignKey(nameof(EmailAddress.ContactID))]
+        public ICollection<EmailAddress> EmailAddresses { get; set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ID { get; set; }
